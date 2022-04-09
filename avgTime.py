@@ -25,27 +25,60 @@ class avgTime:
     def FCFS(self):
         durationCount = 0
         prevDuration = 0
-        for i in range(self.jobsNumber-1):
+        for i in range(len(self.duration)-1):
             durationCount += prevDuration + int(self.duration[i]) - int(self.time[i+1])
             prevDuration += int(self.duration[i])
         return self.approx(durationCount, self.jobsNumber)
-
-    def SJF(self):
+   
+    def orderByDuration(self):
         for i in range(1, self.jobsNumber, 1):
             for j in range(i, self.jobsNumber, 1):
                 if (self.duration[i] > self.duration[j]):
                     self.name[i], self.name[j] = self.name[j], self.name[i]
                     self.duration[i], self.duration[j] = self.duration[j], self.duration[i]
                     self.time[i], self.time[j] = self.time[j], self.time[i]
+
+    def SJF(self):
+        self.orderByDuration()
         return self.FCFS()
 
 
     def SRTF(self):
-        print()
+        self.orderByDuration()
+        executionTime = 0
+        for i in range(self.jobsNumber):
+            executionTime += int(self.duration[i])
+        currentJobExecutionTime = 0
+        jobIndex = 0
+        for i in range(executionTime):
+            for j in range(jobIndex, self.jobsNumber, 1):
+                if (self.duration[jobIndex] > self.duration[j] and self.time[j] <= i):
+                    for k in range(j, self.jobsNumber, 1):
+                        if(self.duration[jobIndex] < self.duration[k] and self.duration[jobIndex] > self.duration[k-1]):
+                            self.duration.insert(k, self.duration[jobIndex] - currentJobExecutionTime)
+                            self.name.insert(k, self.name[jobIndex])
+                            self.time.insert(k, self.time[jobIndex])
+                            self.duration[jobIndex] = currentJobExecutionTime
+                            jobIndex += 1
+                            currentJobExecutionTime = 0
+                            break
+                    break
+            if self.duration[jobIndex] == currentJobExecutionTime:
+                jobIndex += 1
+                currentJobExecutionTime = 0
+            else:
+                currentJobExecutionTime += 1
+        return self.FCFS() 
 
-    def RR(selft):
-        print("Ancora non pronto")
-        sys.exit()
+    def RR(self):
+        timeShare = self.jobsNumber
+        totalDuration = 0
+        for i in range(self.jobsNumber):
+            if self.duration[i] <= 3:
+                totalDuration += self.duration[i]
+            else:
+                totalDuration += 4
+        return self.approx(totalDuration, self.jobsNumber)
 
 def main():
     global algorithm
@@ -86,8 +119,8 @@ def main():
         splittedData = f.split()
 
         jobs['name'].append(splittedData[0])
-        jobs['duration'].append(splittedData[1])
-        jobs['time'].append(splittedData[2])
+        jobs['duration'].append(int(splittedData[1]))
+        jobs['time'].append(int(splittedData[2]))
 
         jobsName = Label(displayJobs, text = splittedData[0]).grid(column = 0, row = i+1)
         jobsDuration = Label(displayJobs, text =splittedData[1]).grid(column = 2, row = i+1)
@@ -145,6 +178,8 @@ def main():
 
 def choose_algorithm():
     chooseAlgorithmWindow = Tk()
+
+    chooseAlgorithmWindow.title("")
 
     chooseAlgorithmWindow.option_add("*font", "Courier 20")
 
