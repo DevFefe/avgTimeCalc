@@ -54,14 +54,32 @@ class avgTime:
             for j in range(jobIndex, self.jobsNumber, 1):
                 if (self.duration[jobIndex] > self.duration[j] and self.time[j] <= i):
                     for k in range(j, self.jobsNumber, 1):
-                        if(self.duration[jobIndex] < self.duration[k] and self.duration[jobIndex] > self.duration[k-1]):
+                        if (self.duration[jobIndex] > self.duration[self.jobsNumber-1]):
+                            self.duration.insert(self.jobsNumber, self.duration[jobIndex] - currentJobExecutionTime)
+                            self.name.insert(self.jobsNumber, self.name[jobIndex])
+                            self.time.insert(self.jobsNumber, self.time[jobIndex])
+                            self.duration[jobIndex] = currentJobExecutionTime
+                            jobIndex += 1
+                            currentJobExecutionTime = 0
+                            self.jobsNumber += 1
+                            break
+                        elif(self.duration[jobIndex] < self.duration[k] and self.duration[jobIndex] > self.duration[k-1]):
                             self.duration.insert(k, self.duration[jobIndex] - currentJobExecutionTime)
                             self.name.insert(k, self.name[jobIndex])
                             self.time.insert(k, self.time[jobIndex])
                             self.duration[jobIndex] = currentJobExecutionTime
                             jobIndex += 1
                             currentJobExecutionTime = 0
+                            self.jobsNumber += 1
                             break
+                        # if self.duration[jobIndex] > self.duration[k]:
+                        #     self.duration.insert(k+1, self.duration[jobIndex] - currentJobExecutionTime)
+                        #     self.name.insert(k+1, self.name[jobIndex])
+                        #     self.time.insert(k+1, self.time[jobIndex])
+                        #     self.duration[jobIndex] = currentJobExecutionTime
+                        #     jobIndex += 1
+                        #     currentJobExecutionTime = 0
+                        #     break
                     break
             if self.duration[jobIndex] == currentJobExecutionTime:
                 jobIndex += 1
