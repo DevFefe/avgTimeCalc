@@ -21,3 +21,7 @@ If you don't have tkinter install it by typing this in your terminal:<br><br>
 ```
 brew install python-tk
 ```
+<b>Arch Linux</b>
+```
+sudo pacman -S tk
+```
