@@ -15,7 +15,7 @@ or for the tab version open the terminal and instead of 'python3 avgTime.py' typ
 ```
 python3 avgTimeWithTabs.py
 ```
-
+<br>
 If you don't have tkinter install it by typing this in your terminal:<br><br>
 <b>MacOS</b>
 ```
