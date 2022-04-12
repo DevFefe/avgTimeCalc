@@ -109,5 +109,4 @@ class avgTime:
                 self.duration[i] = timeShare
                 self.jobsNumberDuringEx += 1
             i+=1
-            print(i)
         return self.approx(totalDuration, self.jobsNumber)
