@@ -49,7 +49,7 @@ def main():
         jobs['name'].append(splittedData[0])
         jobs['duration'].append(int(splittedData[1]))
         jobs['time'].append(int(splittedData[2]))
-        jobs['color'].append(color[i])
+        jobs['color'].append(color[i%4])
 
         jobsName = Label(displayJobs, text = splittedData[0]).grid(column = 0, row = i+1)
         jobsDuration = Label(displayJobs, text =splittedData[1]).grid(column = 2, row = i+1)
